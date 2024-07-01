@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.Socket;
 
 public class Client {
+    // ATTRIBUTES:
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 12345;
     private PrintWriter out;
@@ -13,6 +14,7 @@ public class Client {
     public Client(){
     }
 
+    // PUBLIC METHODS:
     public void startClient(){
         try {
             socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
@@ -27,7 +29,8 @@ public class Client {
         }
     }
 
-    public void listenForMessages(){
+    // PRIVATE METHODS
+    private void listenForMessages(){
         // Thread to listen for messages from the server
          new Thread(new Runnable() {
             @Override

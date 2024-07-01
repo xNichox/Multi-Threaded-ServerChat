@@ -1,7 +1,10 @@
 import java.io.*;
 import java.net.Socket;
 import java.sql.SQLOutput;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +24,7 @@ public class ClientHandler implements Runnable {
 
     // THREAD:
     @Override
-    public void run() { // questo thread viene creato per ogni client e permette l'invio dei messaggi da parte dei client
+    public void run() { // questo thread permette al server di comunicare con più client in contemporanea, di thread ne viene creato uno per ogni client connesso
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -52,10 +55,10 @@ public class ClientHandler implements Runnable {
 
     // PRIVATE METHODS:
     private static synchronized void broadcastMessage(String message, ClientHandler excludeClient) { // mando il messaggio in broadcast ai vari client usando il metodo syncronized broadcastMessage di Server
-        //Server.broadcastMessage(message, this);
+        String msg = new Date() + " " +  message; // invio il messaggio con data + messaggio
         for (ClientHandler client : clientHandlers) {
             if (client != excludeClient) { // non invia il messaggio al client mittente
-                client.sendMessage(message);
+                client.sendMessage(msg);
             }
         }
     }

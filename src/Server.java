@@ -8,7 +8,7 @@ import java.util.Set;
 public class Server {
     // ATTRIBUTES:
     private static final int PORT = 12345;
-    private static Set<ClientHandler> clientHandlers;
+    private static Set<ClientHandler> clientHandlers; // insieme che contiene tutti i client attivi
     private static Server instance;
     private ServerSocket serverSocket;
 
@@ -32,7 +32,7 @@ public class Server {
 
             while (true) { // il server rimane sempre in ascolto
                 ClientHandler clientHandler = new ClientHandler(serverSocket.accept(), clientHandlers); // serverSocket.accept() = server in attesa delle richieste dei client
-                clientHandlers.add(clientHandler);
+                clientHandlers.add(clientHandler); // aggiungo il client appena collegato alla lista dei client attivi
                 System.out.println(clientHandlers);
                 new Thread(clientHandler).start();
             }
@@ -40,14 +40,6 @@ public class Server {
             e.printStackTrace();
         }
     }
-
- /*   public static synchronized void broadcastMessage(String message, ClientHandler excludeClient) {
-        for (ClientHandler client : clientHandlers) {
-            if (client != excludeClient) { // non invia il messaggio al client mittente
-                client.sendMessage(message);
-            }
-        }
-    } */
 
     public static void main(String[] args) throws IOException {
         Server server = getInstance();
